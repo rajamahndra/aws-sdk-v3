@@ -1,6 +1,7 @@
 const { uploadS3 } = require('../utils/uploadS3');
 const { parseForm, postData } = require('../utils/helpers');
 const { searchFace } = require('../utils/searchFace');
+const { remove } = require('../utils/deleteObjectS3');
 const fs = require('fs');
 
 const uploadImage = async (req, res) => {
@@ -63,4 +64,26 @@ const detectFace = async (req, res) => {
   return res.status(status).send(respon);
 };
 
-module.exports = { uploadImage, detectFace };
+const deleteObject = async (req, res) => {
+  const respon = {
+    message: 'Invalid',
+    data: {},
+  };
+  let status = 200;
+
+  await remove(req.body.bucket, [req.body.image])
+    .then((data) => {
+      respon.message = 'Success';
+      respon.data = data;
+    })
+    .catch((error) => {
+      console.log(error);
+      status = 500;
+      respon.message = 'An error occurred.';
+      respon.error = error;
+    });
+
+  return res.status(status).send(respon);
+};
+
+module.exports = { uploadImage, detectFace, deleteObject };
