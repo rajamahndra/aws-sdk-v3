@@ -3,7 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const { uploadImage } = require('./src/controllers/controllers.js');
+const { uploadImage, detectFace } = require('./src/controllers/controllers.js');
+const { uploadCollection } = require('./src/utils/helpers.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,6 +15,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/upload', uploadImage);
+app.post('/detect', detectFace);
+app.post('/up-collection', uploadCollection);
 
 app.listen(PORT, () => {
   console.log(`Server running on || http://localhost:${PORT}.`);
