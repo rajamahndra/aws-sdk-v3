@@ -1,7 +1,7 @@
 require('dotenv').config();
 const awsParamStore = require('aws-param-store-sdkv3');
 
-const PATH_PARAM_STORE = '/isn/prod';
+const PATH_PARAM_STORE = '/path/prod';
 
 let parameter = awsParamStore.getParametersByPathSync(`${PATH_PARAM_STORE}`, {
   region: 'ap-southeast-3',
